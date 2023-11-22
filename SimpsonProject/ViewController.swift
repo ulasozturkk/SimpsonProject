@@ -22,10 +22,10 @@ class ViewController: UIViewController {
     func getEpisodes(){
         
         DispatchQueue.main.async {
-            EpisodeService.shared.getEpisodes { result in
-                switch result{
-                case .success(let episodes):
-                    print(episodes)
+            ProductsService.shared.getProducts { result in
+                switch result {
+                case .success(let models):
+                    print(models)
                 case .failure(let err):
                     print(err)
                 }
