@@ -12,16 +12,14 @@ protocol CharacterSelectionDelegate{
 }
 
 class CharacterViewModel{
-    
-    var characters : [CharacterModel] = []
+
     var delegate : CharacterSelectionDelegate?
     
     func getAllCharacters(){
         CharacterService.shared.getCharacters { result in
             switch result{
             case .success(let models):
-         
-                self.characters = models
+
                 self.delegate?.didSelectCharacter(chosenCharacters: models)
             case .failure(let error):
                 print(error)

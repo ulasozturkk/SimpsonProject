@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 protocol CharacterServiceDelegate {
     
     func getCharacters(completion : @escaping (Result<[CharacterModel],NetworkError>) -> ())
@@ -23,9 +22,6 @@ class CharacterService : CharacterServiceDelegate {
         let endpoint = EndPoint.getCharacters
         NetworkManager.shared.request(endpoint, completion: completion)
     }
-    
-    
-    
     
     
 }
