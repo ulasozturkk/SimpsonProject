@@ -7,47 +7,42 @@
 
 import UIKit
 
-class CharacterVC: UIViewController,UITableViewDelegate,UITableViewDataSource,CharacterSelectionDelegate {
+protocol chosenCharacterDelegate {
+    func selectedCharacter(char : CharacterModel)
+}
+
+class CharacterVC: UIViewController,CharacterSelectionDelegate {
     
-    let cellIdentifier = "characterCell"
     var characterVM = CharacterViewModel()
     var AllCharacters : [CharacterModel] = []
     var characterCount = 0
     let tableView = UITableView()
+    var selectDelegate : chosenCharacterDelegate?
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        print("viewdidload çalıştı")
         view.backgroundColor = .yellow
-        tableView.delegate = self
-        tableView.dataSource = self
+
         characterVM.delegate = self
         characterVM.getAllCharacters()
         setupUI()
-        print(characterCount)
-        
     }
+    
     func didSelectCharacter(chosenCharacters: [CharacterModel]) {
         DispatchQueue.main.async {
             print("didselectchar çalıştı")
-            
             print("alınan data \(chosenCharacters.count)")
             self.AllCharacters = chosenCharacters
             self.characterCount = chosenCharacters.count
-            
             self.tableView.reloadData()
-            
-    
         }
     }
+    
     func setupUI(){
         print("tableview initialize edildi")
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(CharacterCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100 // Tahmini bir hücre yüksekliği belirle
+        tableView.delegate = self
+        tableView.dataSource = self
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
@@ -60,17 +55,23 @@ class CharacterVC: UIViewController,UITableViewDelegate,UITableViewDataSource,Ch
     }
 
     
+}
+extension CharacterVC : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return characterCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CharacterCell
-
-        
+        let cell = UITableViewCell()
+        cell.backgroundColor = .yellow.withAlphaComponent(0.5)
         cell.textLabel?.text = AllCharacters[indexPath.row].name
-        
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedChar = AllCharacters[indexPath.row]
+        let detailvc = CharacterDetailVC()
+        self.selectDelegate = detailvc
+        selectDelegate?.selectedCharacter(char: selectedChar)
+        navigationController?.pushViewController(detailvc, animated: true)
     }
 }

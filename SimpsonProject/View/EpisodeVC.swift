@@ -7,22 +7,42 @@
 
 import UIKit
 
-class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+protocol selectedEpisodeDelegate {
+    func selectedEpisode(episodemodel : EpisodeModel)
+}
+
+
+class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, EpisodeDelegate {
+    
+    
     
     let cellIdentifier = "EpisodeCell"
-
+    let episodeVM = EpisodeViewModel()
+    var AllEpisodes : [EpisodeModel] = []
+    var episodeCount = 0
+    let tableView = UITableView()
+    var selectEpisodeDelegate : selectedEpisodeDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
-        
-        let tableView = makeTableView()
+        view.backgroundColor = .yellow
+        episodeVM.delegate = self
+        episodeVM.getAllEpisodes()
+        SetupUI()
     }
     
+    func didSelectEpisodes(episodeModel: [EpisodeModel]) {
+        DispatchQueue.main.async {
+            print("didselectEp çalıştı")
+            print(episodeModel.count)
+            self.AllEpisodes = episodeModel
+            self.episodeCount = episodeModel.count
+            self.tableView.reloadData()
+        }
+    }
 
-    func makeTableView() -> UITableView{
-        let tableView = UITableView()
+    func SetupUI(){
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(EpisodeCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
         view.addSubview(tableView)
         tableView.delegate = self
@@ -34,18 +54,26 @@ class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        return tableView
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return episodeCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cell = UITableViewCell()
         cell.backgroundColor = .yellow.withAlphaComponent(0.5)
-        cell.textLabel?.text = "test"
+        cell.textLabel?.text = AllEpisodes[indexPath.row].name
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedEpisode = AllEpisodes[indexPath.row]
+        let detailsVC = EpisodeDetailsVC()
+        self.selectEpisodeDelegate = detailsVC
+        selectEpisodeDelegate?.selectedEpisode(episodemodel: selectedEpisode)
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
