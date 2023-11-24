@@ -7,27 +7,48 @@
 
 import UIKit
 
-class CharacterVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
-    
-    
+class CharacterVC: UIViewController,UITableViewDelegate,UITableViewDataSource,CharacterSelectionDelegate {
     
     let cellIdentifier = "characterCell"
+    var characterVM = CharacterViewModel()
+    var AllCharacters : [CharacterModel] = []
+    var characterCount = 0
+    let tableView = UITableView()
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        print("viewdidload çalıştı")
         view.backgroundColor = .yellow
-        let tableview = makeTableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        characterVM.delegate = self
+        characterVM.getAllCharacters()
+        setupUI()
+        print(characterCount)
         
     }
+    func didSelectCharacter(chosenCharacters: [CharacterModel]) {
+        DispatchQueue.main.async {
+            print("didselectchar çalıştı")
+            
+            print("alınan data \(chosenCharacters.count)")
+            self.AllCharacters = chosenCharacters
+            self.characterCount = chosenCharacters.count
+            
+            self.tableView.reloadData()
+            
     
-
-    func makeTableView() -> UITableView{
-        let tableView = UITableView()
+        }
+    }
+    func setupUI(){
+        print("tableview initialize edildi")
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(CharacterCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100 // Tahmini bir hücre yüksekliği belirle
         view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -35,17 +56,21 @@ class CharacterVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        return tableView
+      
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        
+        return characterCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! CharacterCell
-        cell.backgroundColor = .yellow.withAlphaComponent(0.5)
-        cell.textLabel?.text = "test"
+
+        
+        cell.textLabel?.text = AllCharacters[indexPath.row].name
+        
         return cell
     }
 }
