@@ -13,10 +13,8 @@ protocol selectedEpisodeDelegate {
 
 
 class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, EpisodeDelegate {
-    
-    
-    
-    let cellIdentifier = "EpisodeCell"
+
+
     let episodeVM = EpisodeViewModel()
     var AllEpisodes : [EpisodeModel] = []
     var episodeCount = 0
