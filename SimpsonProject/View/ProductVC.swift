@@ -7,22 +7,38 @@
 
 import UIKit
 
-class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
+protocol SelectedProductDelegate {
+    func selectedProduct(model: ProductsModel)
+}
+
+class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource,ProductDelegate {
     
-    let cellIdentifier = "characterCell"
+    
+    var tableView = UITableView()
+    let productVM = ProductViewModel()
+    var allProducts : [ProductsModel] = []
+    var productCount = 0
+    var selectedProductdelegate : SelectedProductDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        let tableview = makeTableView()
+        view.backgroundColor = .yellow
+        productVM.delegate = self
+        productVM.getAllProducts()
+        setupUI()
     }
     
-
     
-    func makeTableView() -> UITableView{
-        let tableView = UITableView()
+    func didSelectProduct(model: [ProductsModel]) {
+        DispatchQueue.main.async {
+            self.allProducts = model
+            self.productCount = model.count
+            self.tableView.reloadData()
+        }
+    }
+    
+    func setupUI(){
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(ProductCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
         view.addSubview(tableView)
         tableView.delegate = self
@@ -34,18 +50,24 @@ class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        return tableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return productCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cell = UITableViewCell()
         cell.backgroundColor = .yellow.withAlphaComponent(0.5)
-        cell.textLabel?.text = "test"
+        cell.textLabel?.text = allProducts[indexPath.row].name
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedProduct = allProducts[indexPath.row]
+        let detailvc = ProductDetailsVC()
+        self.selectedProductdelegate = detailvc
+        self.selectedProductdelegate?.selectedProduct(model: selectedProduct)
+        navigationController?.pushViewController(detailvc, animated: true)
     }
 
 }
