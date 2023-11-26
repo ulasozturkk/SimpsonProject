@@ -20,16 +20,16 @@ The main technologies used in the project include:
 
 ## Screenshots
 
-![Home VC](screenshots/"home.png")
+![Home VC](SimpsonProject/screenshots/"home.png")
 
 
-![The Last Onboarding Page](screenshots/"onboardingtwo.png")
+![The Last Onboarding Page](SimpsonProject/screenshots/"onboardingtwo.png")
 
 
-![Characters VC](screenshots/"charactervc.png")
+![Characters VC](SimpsonProject/screenshots/"charactervc.png")
 
 
-![Episodes VC](screenshots/"episodesvc.png")
+![Episodes VC](SimpsonProject/screenshots/"episodesvc.png")
 
 
 
