@@ -11,7 +11,7 @@ protocol SelectedProductDelegate {
     func selectedProduct(model: ProductsModel)
 }
 
-class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource,ProductDelegate {
+class ProductVC: UIViewController,ProductDelegate {
     
     
     var tableView = UITableView()
@@ -27,8 +27,6 @@ class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource,Prod
         productVM.getAllProducts()
         setupUI()
     }
-    
-    
     func didSelectProduct(model: [ProductsModel]) {
         DispatchQueue.main.async {
             self.allProducts = model
@@ -38,20 +36,15 @@ class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource,Prod
     }
     
     func setupUI(){
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
-        view.addSubview(tableView)
+        view.addSubViews(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor,right: view.safeAreaLayoutGuide.trailingAnchor)
     }
-    
+}
+
+extension ProductVC : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productCount
     }
@@ -69,5 +62,4 @@ class ProductVC: UIViewController,UITableViewDelegate,UITableViewDataSource,Prod
         self.selectedProductdelegate?.selectedProduct(model: selectedProduct)
         navigationController?.pushViewController(detailvc, animated: true)
     }
-
 }

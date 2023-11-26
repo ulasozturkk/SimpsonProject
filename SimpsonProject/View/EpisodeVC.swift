@@ -12,7 +12,7 @@ protocol selectedEpisodeDelegate {
 }
 
 
-class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, EpisodeDelegate {
+class EpisodeVC: UIViewController, EpisodeDelegate {
 
 
     let episodeVM = EpisodeViewModel()
@@ -40,16 +40,15 @@ class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, Epi
     }
 
     func SetupUI(){
-        
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
         view.addSubViews(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.trailingAnchor)
-       
     }
-    
-    
+}
+
+extension EpisodeVC : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return episodeCount
     }
@@ -70,3 +69,4 @@ class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, Epi
         navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
+

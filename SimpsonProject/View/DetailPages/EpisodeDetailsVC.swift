@@ -17,48 +17,40 @@ class EpisodeDetailsVC: UIViewController,selectedEpisodeDelegate {
     var thumbnailURL = UILabel()
     var scrollView = UIScrollView()
     var selectedEpisode : EpisodeModel? {
+        
         didSet{
             UpdateUI()
         }
     }
     
     override func viewDidLoad() {
-        print("viewdidload çalıştı")
         super.viewDidLoad()
         view.backgroundColor = .yellow
         setupUI()
-        
+    }
+    
+    func selectedEpisode(episodemodel: EpisodeModel) {
+        selectedEpisode = episodemodel
     }
     
     func UpdateUI(){
-        print("updateUI çalıştı")
         guard let selectedEpisode = selectedEpisode else { return }
         self.seasonLabel.text = "season :  \(String(selectedEpisode.season))"
         self.rating.text = "rating : \(String(selectedEpisode.rating))"
         self.desc.text = "Description \n \n \(selectedEpisode.description)"
         self.airDate.text = "Air Date : \(selectedEpisode.airDate)"
         self.thumbnailURL.text = "Thumbnail URL : \(selectedEpisode.thumbnailURL)"
-        print(desc.text)
     }
     
     func setupUI(){
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        seasonLabel.translatesAutoresizingMaskIntoConstraints = false
-        rating.translatesAutoresizingMaskIntoConstraints = false
-        desc.translatesAutoresizingMaskIntoConstraints = false
-        airDate.translatesAutoresizingMaskIntoConstraints = false
-        thumbnailURL.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.enableConstraints(seasonLabel,rating,airDate,thumbnailURL)
         view.addSubview(stackView)
         view.addSubview(scrollView)
         desc.textColor = .black
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(seasonLabel)
-        stackView.addArrangedSubview(rating)
-        stackView.addArrangedSubview(airDate)
-        stackView.addArrangedSubview(thumbnailURL)
+        stackView.addArrangedSubviews(views: seasonLabel,rating,airDate,thumbnailURL)
         scrollView.addSubview(desc)
         scrollView.showsVerticalScrollIndicator = true
         scrollView.isScrollEnabled = true
@@ -67,31 +59,10 @@ class EpisodeDetailsVC: UIViewController,selectedEpisodeDelegate {
         let screenHeight = UIScreen.main.bounds.height
         let screenWidth = UIScreen.main.bounds.width
         
+        stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,right: view.safeAreaLayoutGuide.trailingAnchor,height: view.safeAreaLayoutGuide.heightAnchor,heightMultiplier: 0.6)
         
+        scrollView.anchor(top: stackView.bottomAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,right: view.safeAreaLayoutGuide.trailingAnchor,paddingTop: screenHeight * 0.05,height: view.safeAreaLayoutGuide.heightAnchor,heightMultiplier: 0.35)
         
-        NSLayoutConstraint.activate( [
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.6),
-            
-            scrollView.topAnchor.constraint(equalTo: stackView.bottomAnchor,constant: screenHeight * 0.05),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.35),
-            desc.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            desc.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            desc.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            desc.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            desc.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-            
-        ])
+        desc.anchor(top: scrollView.topAnchor,left: scrollView.leadingAnchor,bottom: scrollView.bottomAnchor, right: scrollView.trailingAnchor,width: scrollView.widthAnchor)
     }
-    
-    func selectedEpisode(episodemodel: EpisodeModel) {
-        print("selected ep çalıştı")
-        selectedEpisode = episodemodel
-    }
-    
-    
 }

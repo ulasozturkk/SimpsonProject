@@ -21,13 +21,15 @@ class CharacterDetailVC: UIViewController,chosenCharacterDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewdidload çalıştı")
         view.backgroundColor = .yellow
         setupUI()
     }
     
+    func selectedCharacter(char: CharacterModel) {
+        selectedChar = char
+    }
+    
     func updateUI() {
-                print("updateUI çalıştırıldı")
                 guard let selectedCharacter = selectedChar else { return }
                 print(selectedCharacter.name)
                 namelabel.text = "Name: \(selectedCharacter.name)"
@@ -35,33 +37,16 @@ class CharacterDetailVC: UIViewController,chosenCharacterDelegate {
                 genderLabel.text = "Gender: \(selectedCharacter.gender)"
         }
     
-    func selectedCharacter(char: CharacterModel) {
-        print("selectedChar çalıştı")
-        selectedChar = char
-    }
-    
     func setupUI(){
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        namelabel.translatesAutoresizingMaskIntoConstraints = false
-        normalizedNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        genderLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.enableConstraints(stackView,namelabel,normalizedNameLabel,genderLabel)
         view.addSubview(stackView)
-        stackView.addArrangedSubview(namelabel)
-        stackView.addArrangedSubview(normalizedNameLabel)
-        stackView.addArrangedSubview(genderLabel)
+        stackView.addArrangedSubviews(views: namelabel,normalizedNameLabel,genderLabel)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .center
         namelabel.textColor = .black
         normalizedNameLabel.textColor = .black
         genderLabel.textColor = .black
-        
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        ])
+        stackView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.trailingAnchor)
     }
-    
 }
