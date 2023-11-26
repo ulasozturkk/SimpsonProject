@@ -40,18 +40,13 @@ class EpisodeVC: UIViewController,UITableViewDelegate,UITableViewDataSource, Epi
     }
 
     func SetupUI(){
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
-        view.addSubview(tableView)
+        view.addSubViews(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.trailingAnchor)
+       
     }
     
     

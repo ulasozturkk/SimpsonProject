@@ -36,6 +36,7 @@
 		526462342B0D5EDA00B06427 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526462332B0D5EDA00B06427 /* OnboardingVC.swift */; };
 		526462392B0D5EDB00B06427 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 526462382B0D5EDB00B06427 /* Assets.xcassets */; };
 		5264623C2B0D5EDB00B06427 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5264623A2B0D5EDB00B06427 /* LaunchScreen.storyboard */; };
+		52B208172B137052000ABBB3 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B208162B137052000ABBB3 /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		526462382B0D5EDB00B06427 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5264623B2B0D5EDB00B06427 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5264623D2B0D5EDB00B06427 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52B208162B137052000ABBB3 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +177,7 @@
 		5264622E2B0D5EDA00B06427 /* SimpsonProject */ = {
 			isa = PBXGroup;
 			children = (
+				52B208152B137041000ABBB3 /* Extensions */,
 				52143D242B0E867000C842CB /* Service */,
 				526462462B0D62AA00B06427 /* Model */,
 				526462452B0D62A400B06427 /* ViewModel */,
@@ -221,6 +224,14 @@
 				52143D342B0EAEE200C842CB /* ProductsModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		52B208152B137041000ABBB3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				52B208162B137052000ABBB3 /* UIViewExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +333,7 @@
 				52143D332B0EAE9A00C842CB /* CharacterModel.swift in Sources */,
 				526462322B0D5EDA00B06427 /* SceneDelegate.swift in Sources */,
 				52143D2E2B0E9FB300C842CB /* EpisodeModel.swift in Sources */,
+				52B208172B137052000ABBB3 /* UIViewExtension.swift in Sources */,
 				52143D3B2B0EAFF600C842CB /* ProductsService.swift in Sources */,
 				520B41BF2B0FE4DF00479123 /* EpisodeCell.swift in Sources */,
 				525816732B1157510021E640 /* EpisodeDetailsVC.swift in Sources */,
