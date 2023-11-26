@@ -21,7 +21,6 @@ class CharacterVC: UIViewController,CharacterSelectionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow
-
         characterVM.delegate = self
         characterVM.getAllCharacters()
         setupUI()
@@ -38,24 +37,14 @@ class CharacterVC: UIViewController,CharacterSelectionDelegate {
     }
     
     func setupUI(){
-        print("tableview initialize edildi")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .yellow.withAlphaComponent(0.7)
         tableView.delegate = self
         tableView.dataSource = self
-        view.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-      
+        view.addSubViews(tableView)
+        tableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,left: view.safeAreaLayoutGuide.leadingAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor,right: view.safeAreaLayoutGuide.trailingAnchor)
     }
-
-    
 }
+
 extension CharacterVC : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return characterCount
