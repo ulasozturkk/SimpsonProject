@@ -29,8 +29,14 @@ class OnboardingVC: UIViewController , UIScrollViewDelegate{
                                       width: screenWidth,
                                       isButtonHidden: true
         )
-        let secondView = makeView(color: .yellow, title: nil, image: nil, subtitle: nil,height: screenHeight,width: screenWidth,isButtonHidden: true)
-        let thirdView = makeView(color: .yellow, title: nil, image: nil, subtitle: nil,height: screenHeight,width: screenWidth,isButtonHidden: false)
+        let secondView = makeView(color: .yellow, title: "Characters VC",
+                                  image: UIImage(named: "charactervc"),
+                                  subtitle: "You can see All characters on Episodes tab"
+                                  ,height: screenHeight,width: screenWidth,isButtonHidden: true)
+        
+        let thirdView = makeView(color: .yellow, title: "Episodes VC", image: UIImage(named: "episodesvc"), 
+                                 subtitle: nil,height: screenHeight,
+                                 width: screenWidth,isButtonHidden: false)
         view.addSubview(scrollView)
         
         let stackView = UIStackView()
@@ -71,6 +77,7 @@ class OnboardingVC: UIViewController , UIScrollViewDelegate{
         let button = UIButton()
         button.isHidden = isButtonHidden
         button.setTitle("Home Page", for: .normal)
+        button.backgroundColor = .black
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         
         view.addSubViews(imageView,label,subLabel,button)

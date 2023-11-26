@@ -14,7 +14,6 @@ protocol selectedEpisodeDelegate {
 
 class EpisodeVC: UIViewController, EpisodeDelegate {
 
-
     let episodeVM = EpisodeViewModel()
     var AllEpisodes : [EpisodeModel] = []
     var episodeCount = 0
@@ -61,7 +60,6 @@ extension EpisodeVC : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let selectedEpisode = AllEpisodes[indexPath.row]
         let detailsVC = EpisodeDetailsVC()
         self.selectEpisodeDelegate = detailsVC
